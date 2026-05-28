@@ -255,7 +255,7 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 ## ✉️ Contact
 
-* **Repository Maintainer**: [Rishi](https://github.com/rishima17)
+* **Repository Maintainer**: [Rishima](https://github.com/rishima17)
 * **Project Link**: [https://github.com/rishima17/LecturePulse](https://github.com/rishima17/LecturePulse)
 * **Join the Conversation**: Open an issue or suggest a feature through Github Discussion boards!
 
