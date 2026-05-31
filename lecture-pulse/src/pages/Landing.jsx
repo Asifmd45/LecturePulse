@@ -69,46 +69,6 @@ function Landing() {
 
           {/* Desktop Nav */}
           <div className="hidden md:flex items-center gap-3">
-            {/* 
-            <button
-              onClick={toggleTheme}
-              aria-label="Toggle Theme"
-              className="
-    group relative flex items-center justify-center
-    w-11 h-11 rounded-full
-    border border-border/50
-    bg-background/70
-    backdrop-blur-xl
-    hover:bg-accent
-    transition-all duration-300
-    hover:scale-105
-    active:scale-95
-    shadow-lg shadow-black/5
-  "
-            >
-              <div className="relative">
-                {theme === "dark" ? (
-                  <Sun
-                    className="
-          w-5 h-5 text-yellow-400
-          transition-all duration-500
-          rotate-0 scale-100
-          group-hover:rotate-12
-        "
-                  />
-                ) : (
-                  <Moon
-                    className="
-          w-5 h-5 text-muted-foreground-700
-          dark:text-muted-foreground-200
-          transition-all duration-500
-          rotate-0 scale-100
-          group-hover:-rotate-12
-        "
-                  />
-                )}
-              </div>
-            </button> */}
             <button
               onClick={toggleTheme}
               aria-label="Toggle Theme"
@@ -128,7 +88,7 @@ function Landing() {
                 }
   `}
             >
-              <div className="relative">
+              <div className="relative z-10 text-white">
                 {theme === "dark" ? (
                   <Sun
                     className="
@@ -202,7 +162,6 @@ function Landing() {
                     <>
                       <Moon className="w-5 h-5 text-muted-foreground-700 dark:text-muted-foreground-200" />
                       <span className="text-sm font-medium">
-                        {/* <span className="text-sm font-medium text-foreground"> */}
                         Dark Mode
                       </span>
                     </>
@@ -238,7 +197,13 @@ function Landing() {
             backgroundPosition: 'center',
           }}
         />
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5 z-0" />
+        <div
+          className="
+    absolute inset-0 z-0
+    bg-background/40
+    dark:bg-background/70
+  "
+        />
         <div className="absolute top-20 left-10 w-72 h-72 bg-primary/10 rounded-full blur-3xl z-0" />
         <div className="absolute bottom-10 right-10 w-96 h-96 bg-accent/10 rounded-full blur-3xl z-0" />
 
@@ -303,7 +268,7 @@ function Landing() {
       </section>
 
       {/* Features Section */}
-      <section className="py-20 px-4 bg-muted/30">
+      <section className="py-20 px-4 bg-background">
         <div className="container mx-auto max-w-6xl">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -338,7 +303,7 @@ function Landing() {
                     <h3 className="text-xl font-bold text-foreground mb-2">
                       {feature.title}
                     </h3>
-                    <p className="text-muted-foreground">
+                    <p className="text-muted-foreground leading-relaxed">
                       {feature.description}
                     </p>
                   </CardContent>
@@ -363,13 +328,14 @@ function Landing() {
               className="bg-cover bg-center text-primary-foreground p-12 text-center relative overflow-hidden"
               style={{ backgroundImage: "url('https://img.freepik.com/premium-photo/photo-elementary-school-students-teaching-learning-activities_889227-69551.jpg')" }}
             >
-              <div className="absolute inset-0 bg-slate-900/80" />
+              
+              <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/75 to-black/85" />
               <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMC4wNSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMiIvPjwvZz48L2c+PC9zdmc+')] opacity-30" />
               <div className="relative">
-                <h2 className="text-3xl md:text-4xl font-bold mb-4">
+                <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">
                   Ready to Transform Your Teaching?
                 </h2>
-                <p className="text-lg opacity-90 mb-8 max-w-xl mx-auto">
+                <p className="text-lg text-white/90 mb-8 max-w-xl mx-auto">
                   Join educators who are already using data-driven insights to
                   improve student engagement and understanding.
                 </p>
