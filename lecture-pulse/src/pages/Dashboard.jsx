@@ -5,14 +5,15 @@ import { Card, CardContent } from '@/components/ui/card';
 import { getCurrentTeacher, clearCurrentTeacher, getLecturesByTeacher } from '@/utils/storage';
 import CreateLectureDialog from '@/components/CreateLectureDialog';
 import LectureCard from '@/components/LectureCard';
-import { LogOut, Plus, BarChart3, BookOpen, GraduationCap } from 'lucide-react';
+import { LogOut, Plus, BarChart3, BookOpen, GraduationCap, Search } from 'lucide-react';
 import { toast } from 'sonner';
 
 const Dashboard = () => {
-  const [teacher, setTeacher] = useState(null);
-  const [lectures, setLectures] = useState([]);
-  const [isCreateOpen, setIsCreateOpen] = useState(false);
-  const navigate = useNavigate();
+const [teacher, setTeacher] = useState(null);
+const [lectures, setLectures] = useState([]);
+const [searchTerm, setSearchTerm] = useState('');
+const [isCreateOpen, setIsCreateOpen] = useState(false);
+const navigate = useNavigate();
 
   useEffect(() => {
     const currentTeacher = getCurrentTeacher();
@@ -44,8 +45,14 @@ const Dashboard = () => {
 
   if (!teacher) return null;
 
-  const activeLectures = lectures.filter(l => l.isActive);
-  const pastLectures = lectures.filter(l => !l.isActive);
+const filteredLectures = lectures.filter((lecture) =>
+  lecture.topic?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+  lecture.subject?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+  lecture.code?.toLowerCase().includes(searchTerm.toLowerCase())
+);
+
+const activeLectures = filteredLectures.filter(l => l.isActive);
+const pastLectures = filteredLectures.filter(l => !l.isActive);
 
   return (
     <div className="min-h-screen bg-background">
@@ -106,32 +113,51 @@ const Dashboard = () => {
           </Card>
         </div>
 
-        {/* Create New Lecture */}
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-xl font-semibold text-foreground">Your Lectures</h2>
-          <Button onClick={() => setIsCreateOpen(true)} className="bg-primary text-primary-foreground hover:bg-primary/90">
-            <Plus className="w-4 h-4 mr-2" />
-            Create Lecture
-          </Button>
-        </div>
+<div className="flex flex-col md:flex-row gap-4 md:items-center md:justify-between mb-6">
+  <h2 className="text-xl font-semibold text-foreground">
+    Your Lectures
+  </h2>
 
-        {/* Lectures Grid */}
-        {lectures.length === 0 ? (
-          <Card className="text-center py-12 border-dashed">
-            <CardContent>
-              <BookOpen className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
-              <h3 className="text-lg font-medium text-foreground mb-2">No lectures yet</h3>
-              <p className="text-muted-foreground mb-4">
-                Create your first lecture session to start collecting feedback
-              </p>
-              <Button onClick={() => setIsCreateOpen(true)}>
-                <Plus className="w-4 h-4 mr-2" />
-                Create Your First Lecture
-              </Button>
-            </CardContent>
-          </Card>
-        ) : (
-          <div className="space-y-6">
+  <div className="flex gap-3">
+    <div className="relative">
+      <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+
+      <input
+        type="text"
+        placeholder="Search lectures..."
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        className="pl-10 pr-4 py-2 border rounded-md bg-background"
+      />
+    </div>
+
+    <Button
+      onClick={() => setIsCreateOpen(true)}
+      className="bg-primary text-primary-foreground hover:bg-primary/90"
+    >
+      <Plus className="w-4 h-4 mr-2" />
+      Create Lecture
+    </Button>
+  </div>
+</div>
+
+{lectures.length === 0 ? (
+  <Card className="text-center py-12 border-dashed">
+    ...
+  </Card>
+) : filteredLectures.length === 0 ? (
+  <Card className="text-center py-12 border-dashed">
+    <CardContent>
+      <h3 className="text-lg font-medium">
+        No lectures found
+      </h3>
+      <p className="text-muted-foreground mt-2">
+        Try a different search term.
+      </p>
+    </CardContent>
+  </Card>
+) : (
+            <div className="space-y-6">
             {activeLectures.length > 0 && (
               <div>
                 <h3 className="text-sm font-medium text-muted-foreground mb-3 uppercase tracking-wide">
