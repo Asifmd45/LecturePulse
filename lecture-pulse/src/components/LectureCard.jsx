@@ -1,12 +1,14 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { ArrowRight, Clock, Users, Trash2 } from "lucide-react";
+import { Trash2, Check } from "lucide-react";
 import { deleteLecture, getFeedbackByLecture } from "@/utils/storage";
 import { toast } from "sonner";
 
 const LectureCard = ({ lecture, onUpdate }) => {
   const navigate = useNavigate();
+  const [copied, setCopied] = useState(false);
   const feedbackCount = getFeedbackByLecture(lecture.id).length;
 
   const handleDelete = (e) => {
@@ -36,6 +38,8 @@ const LectureCard = ({ lecture, onUpdate }) => {
 
     navigator.clipboard.writeText(lecture.code);
     toast.success("Code copied to clipboard");
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
   };
 
   return (
@@ -62,28 +66,46 @@ const LectureCard = ({ lecture, onUpdate }) => {
 
         {/* Code Box */}
         <div
-          className="bg-muted/50 rounded-lg p-3 flex items-center justify-between group/code cursor-pointer hover:bg-muted transition-colors border border-transparent hover:border-border"
+          className={`rounded-lg p-3 flex items-center justify-between group/code cursor-pointer transition-all duration-300 border ${
+            copied
+              ? "bg-emerald-50 border-emerald-300"
+              : "bg-muted/50 border-transparent hover:bg-muted hover:border-border"
+          }`}
           onClick={copyCode}
         >
-          <code className="text-xl font-mono mobile-font font-bold text-emerald-600 tracking-wider">
+          <code
+            className={`text-xl font-mono mobile-font font-bold tracking-wider transition-colors duration-300 ${
+              copied ? "text-emerald-700" : "text-emerald-600"
+            }`}
+          >
             {lecture.code}
           </code>
-          <div className="opacity-0 group-hover/code:opacity-100 transition-opacity p-1.5 rounded-md hover:bg-background shadow-sm">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="text-muted-foreground"
-            >
-              <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
-              <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
-            </svg>
+          <div
+            className={`transition-all duration-300 p-1.5 rounded-md ${
+              copied
+                ? "opacity-100 bg-emerald-100"
+                : "opacity-0 group-hover/code:opacity-100 hover:bg-background shadow-sm"
+            }`}
+          >
+            {copied ? (
+              <Check className="w-4 h-4 text-emerald-600" />
+            ) : (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="text-muted-foreground"
+              >
+                <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
+                <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
+              </svg>
+            )}
           </div>
         </div>
 
