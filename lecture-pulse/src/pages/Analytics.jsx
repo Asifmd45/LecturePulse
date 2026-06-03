@@ -8,6 +8,7 @@ import { ArrowLeft, Users, TrendingUp, AlertCircle, Lightbulb, RefreshCw } from 
 import UnderstandingChart from '@/components/charts/UnderstandingChart';
 import AttentionChart from '@/components/charts/AttentionChart';
 import ConfusionChart from '@/components/charts/ConfusionChart';
+import FeedbackTimeline from '@/components/charts/FeedbackTimeline';
 import { generateLecturePDF } from "@/utils/pdfReport";
 import { useRef } from "react";
 import html2canvas from "html2canvas";
@@ -230,6 +231,18 @@ const Analytics = () => {
                 </CardContent>
               </Card>
             </div>
+            {/* Feedback Timeline */}
+<Card>
+  <CardHeader>
+    <CardTitle className="text-base flex items-center gap-2">
+      <TrendingUp className="w-4 h-4 text-primary" />
+      Engagement Timeline
+    </CardTitle>
+  </CardHeader>
+  <CardContent>
+    <FeedbackTimeline data={analytics.timeline} />
+  </CardContent>
+</Card>
 
             {/* Insights & Suggestions */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
